@@ -40,5 +40,5 @@ jobs:
           platforms: |
             linux/amd64
           file: ./nut/Dockerfile
-          tags: ghcr.io/${{ env.IMAGE_NAME }}
+          tags: ghcr.io/${{ env.IMAGE_NAME }}/amd64:stable
           push: true
