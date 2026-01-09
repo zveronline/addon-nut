@@ -29,7 +29,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push Docker image
+      - name: Build and push Docker image amd64
         uses: docker/build-push-action@v6
         with:
           build-args: |
@@ -39,8 +39,24 @@ jobs:
           context: .
           platforms: |
             linux/amd64
-          file: ./nut/Dockerfile
+          file: ./nut/Dockerfile-amd64
           tags: | 
             ghcr.io/${{ env.IMAGE_NAME }}/amd64:0.17.0
             ghcr.io/${{ env.IMAGE_NAME }}/amd64:stable
+          push: true
+
+      - name: Build and push Docker image arm64
+        uses: docker/build-push-action@v6
+        with:
+          build-args: |
+            MAINTAINER=${{ github.repository_owner }}
+            BRANCH=${{ github.ref_name }}
+            SOURCE_COMMIT=${{ github.sha }}
+          context: .
+          platforms: |
+            linux/aarch64
+          file: ./nut/Dockerfile-arm64
+          tags: | 
+            ghcr.io/${{ env.IMAGE_NAME }}/aarch64:0.17.0
+            ghcr.io/${{ env.IMAGE_NAME }}/aarch64:stable
           push: true
